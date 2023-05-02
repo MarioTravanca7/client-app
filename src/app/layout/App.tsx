@@ -3,26 +3,28 @@ import axios from "axios";
 import { Container, List } from "semantic-ui-react";
 import { Activity } from "../models/activity";
 import NavBar from "./NavBar";
+//import { ToastContainer } from 'react-toastify';
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
-
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
-  const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
+  const [selectedActivity, setSelectedActivity] = useState<
+    Activity | undefined
+  >(undefined);
 
   useEffect(() => {
     axios
       .get<Activity[]>("http://localhost:5000/api/activities")
       .then((response) => {
         setActivities(response.data);
-      })
-  }, [])
+      });
+  }, []);
 
-  function handleSelectActivity(id: string){
-    setSelectedActivity(activities.find(x => x.id === id));
+  function handleSelectActivity(id: string) {
+    setSelectedActivity(activities.find((x) => x.id === id));
   }
 
-  function handleCancelSelecteActivity () {
+  function handleCancelSelecteActivity() {
     setSelectedActivity(undefined);
   }
 
@@ -30,13 +32,11 @@ function App() {
     <>
       <NavBar />
       <Container style={{ marginTop: "7em" }}>
-        <ActivityDashboard 
-        
-        TransfActivities={activities}
-        selectedActivity={selectedActivity}
-        selectActivity={handleSelectActivity}
-        cancelSelectActivity={handleCancelSelecteActivity}
-
+        <ActivityDashboard
+          TransfActivities={activities}
+          selectedActivity={selectedActivity}
+          selectActivity={handleSelectActivity}
+          cancelSelectActivity={handleCancelSelecteActivity}
         />
       </Container>
     </>
